@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.vino.vinoapi.dto.ReviewDto;
 import com.vino.vinoapi.exception.BaseException;
 import com.vino.vinoapi.model.Review;
+import com.vino.vinoapi.model.Wine;
 import com.vino.vinoapi.repository.ReviewRepository;
 
 @Service
@@ -17,15 +18,23 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Autowired
     private ReviewRepository reviewRepository;
+    @Autowired
+    private WineService wineService;
 
     @Override
-    public Review save(ReviewDto e) throws BaseException {
-        return reviewRepository.save(new Review(e.getDescription()));
+    public Review save(Long wineId, ReviewDto e) throws BaseException {
+        Wine wine = wineService.get(wineId);
+        return reviewRepository.save(new Review(e.getDescription(), wine));
     }
 
     @Override
     public List<Review> getAll() throws BaseException {
         return reviewRepository.findAll();
+    }
+
+    @Override
+    public List<Review> getByWineId(Long wineId) throws BaseException {
+        return reviewRepository.findByWineId(wineId);
     }
 
     @Override

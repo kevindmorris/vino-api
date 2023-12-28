@@ -31,9 +31,10 @@ public class ReviewController {
 
     // POST
     @Operation(summary = "Create a review.")
-    @PostMapping("/reviews")
-    public ResponseEntity<ReviewDto> createReview(@RequestBody ReviewDto e) throws BaseException {
-        return ResponseEntity.ok(ReviewDto.toBasic(reviewService.save(e)));
+    @PostMapping("/wines/{wineId}/reviews")
+    public ResponseEntity<ReviewDto> createReview(@PathVariable Long wineId, @RequestBody ReviewDto e)
+            throws BaseException {
+        return ResponseEntity.ok(ReviewDto.toBasic(reviewService.save(wineId, e)));
     }
 
     // GET
@@ -42,6 +43,13 @@ public class ReviewController {
     public ResponseEntity<List<ReviewDto>> getReviews() throws BaseException {
         return ResponseEntity
                 .ok(reviewService.getAll().stream().map(ReviewDto::toBasic).collect(Collectors.toList()));
+    }
+
+    @Operation(summary = "Get all reviews by wine.")
+    @GetMapping("/wines/{wineId}/reviews")
+    public ResponseEntity<List<ReviewDto>> getReviewsByWine(@PathVariable Long wineId) throws BaseException {
+        return ResponseEntity
+                .ok(reviewService.getByWineId(wineId).stream().map(ReviewDto::toBasic).collect(Collectors.toList()));
     }
 
     @Operation(summary = "Get a review.")

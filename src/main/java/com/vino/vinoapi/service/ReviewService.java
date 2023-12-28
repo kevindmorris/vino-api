@@ -8,9 +8,11 @@ import com.vino.vinoapi.model.Review;
 
 public interface ReviewService {
 
-    public Review save(ReviewDto e) throws BaseException;
+    public Review save(Long wineId, ReviewDto e) throws BaseException;
 
     public List<Review> getAll() throws BaseException;
+
+    public List<Review> getByWineId(Long wineId) throws BaseException;
 
     public Review get(Long id) throws BaseException;
 
