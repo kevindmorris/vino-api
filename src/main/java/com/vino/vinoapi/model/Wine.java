@@ -30,4 +30,13 @@ public class Wine {
     @Column(nullable = false)
     private String description;
 
+    public Wine() {
+    }
+
+    public Wine(String name, WineType type, String description) {
+        this.name = name;
+        this.type = type;
+        this.description = description;
+    }
+
 }

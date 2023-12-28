@@ -22,4 +22,11 @@ public class Review {
     @Column(nullable = false)
     private String description;
 
+    public Review() {
+    }
+
+    public Review(String description) {
+        this.description = description;
+    }
+
 }

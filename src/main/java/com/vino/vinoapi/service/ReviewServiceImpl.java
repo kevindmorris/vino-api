@@ -5,19 +5,22 @@ import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+import com.vino.vinoapi.dto.ReviewDto;
 import com.vino.vinoapi.exception.BaseException;
 import com.vino.vinoapi.model.Review;
 import com.vino.vinoapi.repository.ReviewRepository;
 
+@Service
 public class ReviewServiceImpl implements ReviewService {
 
     @Autowired
     private ReviewRepository reviewRepository;
 
     @Override
-    public Review save(Review e) throws BaseException {
-        return reviewRepository.save(e);
+    public Review save(ReviewDto e) throws BaseException {
+        return reviewRepository.save(new Review(e.getDescription()));
     }
 
     @Override
@@ -32,7 +35,7 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public Review update(Long id, Review e) throws BaseException {
+    public Review update(Long id, ReviewDto e) throws BaseException {
         Optional<Review> optional = reviewRepository.findById(id);
 
         if (optional.isEmpty())

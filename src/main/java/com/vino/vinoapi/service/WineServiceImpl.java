@@ -5,19 +5,22 @@ import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+import com.vino.vinoapi.dto.WineDto;
 import com.vino.vinoapi.exception.BaseException;
 import com.vino.vinoapi.model.Wine;
 import com.vino.vinoapi.repository.WineRepository;
 
+@Service
 public class WineServiceImpl implements WineService {
 
     @Autowired
     private WineRepository wineRepository;
 
     @Override
-    public Wine save(Wine e) throws BaseException {
-        return wineRepository.save(e);
+    public Wine save(WineDto e) throws BaseException {
+        return wineRepository.save(new Wine(e.getName(), e.getType(), e.getDescription()));
     }
 
     @Override
@@ -31,7 +34,7 @@ public class WineServiceImpl implements WineService {
     }
 
     @Override
-    public Wine update(Long id, Wine e) throws BaseException {
+    public Wine update(Long id, WineDto e) throws BaseException {
         Optional<Wine> optional = wineRepository.findById(id);
 
         if (optional.isEmpty())
